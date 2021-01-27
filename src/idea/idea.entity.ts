@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity('idea')
 export class IdeaEntity {
     @PrimaryGeneratedColumn('uuid') 
     id: string;
@@ -8,9 +8,9 @@ export class IdeaEntity {
     @CreateDateColumn() 
     created: Date;
 
-    @Column() 
+    @Column('text') 
     idea: string;
 
-    @Column() 
+    @Column('text') 
     description: string;
 }
