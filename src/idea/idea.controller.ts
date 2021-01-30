@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { IdeaDTO } from './idea.dto';
 import { IdeaService } from './idea.service';
 
 @Controller('idea')
 export class IdeaController {
+    private logger = new Logger('IdeaController');
     constructor(private ideaService: IdeaService){}
 
     @Get()
@@ -12,7 +13,9 @@ export class IdeaController {
     }
 
     @Post()
+    @UsePipes( new ValidationPipe())
     createIdea(@Body() data: IdeaDTO){
+        this.logger.log(JSON.stringify(data));
         return this.ideaService.create(data);
     }
 
@@ -22,7 +25,9 @@ export class IdeaController {
     }
 
     @Patch(':id')
-    updateIdea(@Param('id') id: string, @Body() data: IdeaDTO){
+    updateIdea(@Param('id') id: string, @Body(new ValidationPipe({ skipMissingProperties: true})
+    ) data: IdeaDTO){
+        this.logger.log(JSON.stringify(data));
         return this.ideaService.update(id, data);
     }
 
