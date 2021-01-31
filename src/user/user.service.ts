@@ -13,7 +13,7 @@ export class UserService {
 
     async showAll(): Promise<UserRo[]>{
         const users = await this.userRepository.find();
-        return users.map(user => user.toResponseObject(true));
+        return users.map(user => user.toResponseObject(false));
     }
 
     async login(data: UserDto): Promise<UserRo>{
