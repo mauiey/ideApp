@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column } from 'typeorm';
+import { UserEntity } from '../user/user.entity';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, ManyToOne, UpdateDateColumn } from 'typeorm';
 
 @Entity('idea')
 export class IdeaEntity {
@@ -8,9 +9,15 @@ export class IdeaEntity {
     @CreateDateColumn() 
     created: Date;
 
+    @UpdateDateColumn()
+    updated: Date;
+
     @Column('text') 
     idea: string;
 
     @Column('text') 
     description: string;
+
+    @ManyToOne(type => UserEntity, author => author.ideas)
+    author: UserEntity;
 }
