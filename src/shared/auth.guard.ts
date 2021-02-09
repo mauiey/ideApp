@@ -4,7 +4,6 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log('AUTH GUARD - 1');
     const request = context.switchToHttp().getRequest();
     if (!request.headers.authorization) {
         return false;
@@ -13,7 +12,6 @@ export class AuthGuard implements CanActivate {
     return true;
   }
   async validateToken(auth: string){
-    console.log('AUTH GUARD - 2');
     if(auth.split(' ')[0] !== 'Bearer') {
         throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }

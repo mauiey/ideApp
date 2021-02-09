@@ -18,19 +18,15 @@ export class IdeaService {
     ){}
 
     private ideaToResponseObject(idea: IdeaEntity): IdeaRo {
-        console.log('1');
         const responseObject: any = { 
             ...idea, author: idea.author ? idea.author.toResponseObject(false): null, };
         console.log(responseObject);
         if (idea.upvotes){
-            console.log('2');
             responseObject.upvotes = idea.upvotes.length;
         }
         if (idea.downvotes){
-            console.log('3');
             responseObject.downvotes = idea.downvotes.length;
         }
-        console.log('4');
 
         return responseObject;
     }
@@ -58,8 +54,13 @@ export class IdeaService {
         return idea;
     }
 
-    async showAll(): Promise<IdeaRo[]>{
-        const ideas = await this.ideaRepository.find({ relations: ['author', 'upvotes', 'downvotes', 'comments'] });
+    async showAll(page: number = 1, newest?: boolean): Promise<IdeaRo[]>{
+        const ideas = await this.ideaRepository.find({
+            relations: ['author', 'upvotes', 'downvotes', 'comments'],
+            take: 25,
+            skip: 25 * (page - 1),
+            order: newest && {created: 'DESC'},
+        });
         return ideas.map(idea => this.ideaToResponseObject(idea));
     }
 

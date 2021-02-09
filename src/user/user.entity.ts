@@ -35,7 +35,6 @@ export class UserEntity {
     }
 
     toResponseObject(showToken: boolean = true): UserRo {
-        console.log('toresp1');
         const { id, created, username, token } = this;
         const responseObject: UserRo = { id, created, username };
         if (showToken){

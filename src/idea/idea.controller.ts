@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { userInfo } from 'os';
 import { UserEntity } from 'src/user/user.entity';
 import { AuthGuard } from '../shared/auth.guard';
@@ -19,8 +19,13 @@ export class IdeaController {
     }
 
     @Get()
-    showAllIdeas(){
-        return this.ideaService.showAll();
+    showAllIdeas(@Query('page') page: number){
+        return this.ideaService.showAll(page);
+    }
+
+    @Get('/newest')
+    showNewestIdeas(@Query('page') page: number){
+        return this.ideaService.showAll(page, true);
     }
 
     @Post()
